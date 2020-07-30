@@ -8,7 +8,7 @@ const fetchMyIP = function(callback) {
     }
     if (response.statusCode !== 200) {
       const msg = `Status Code ${response.statusCode} when fetching IP. Response: ${body}`;
-      callback(Error(msg), null);
+      callback(Error(msg));
       return;
     }
     const data = JSON.parse(body);
@@ -17,6 +17,20 @@ const fetchMyIP = function(callback) {
       return;
     }
     callback(error, data.ip);
+  });
+};
+
+const fetchCoordsByIP = (ip, callback) => {
+  request('https://ipvigilante.com/' + ip, (error, response, body) => {
+    if (error) {
+      callback(error);
+      return;
+    }
+    if (response.statusCode !== 200) {
+      const msg = `Status Code ${response.statusCode} when fetching coordinates. Response: ${body}`;
+      callback(Error(msg));
+      return;
+    }
   });
 };
 
